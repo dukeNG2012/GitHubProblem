@@ -1,0 +1,26 @@
+// bài này mình tự làm được. nlogn. Tuy nhiên làm thế nào để được O(n)?
+class Solution {
+    public int IntToBinary(int n)
+    {
+        int NumOfOne = 0;
+        int PhanDu = 0;
+        while(n > 0)
+        {
+            PhanDu = n%2;
+            if(PhanDu == 1)
+            {
+                NumOfOne++;
+            }
+            n /= 2;
+        }
+        return NumOfOne;
+    }
+    public int[] countBits(int n) {
+        int ans[] = new int[n+1];
+        for(int i = 0; i <= n; ++i)
+        {
+            ans[i] = IntToBinary(i);
+        }
+        return ans;   
+    }
+}
