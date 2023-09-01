@@ -1,0 +1,85 @@
+?* this is my idea:
+import java.math.BigInteger;
+class Solution {
+    // idea: chuyển số đó về dạng string
+        // sau đó lại chuyển từ string về số
+    String IntToString(BigInteger number)
+    {
+        return BigInteger.toString(number);
+    }
+    static String reverse(String h)
+    {
+        char[] h1 = h.toCharArray();
+        int i = 0;
+        int j = h.length()-1;
+        while(i <= (h.length()-1)/2)
+        {
+            char temp = h1[i];
+            h1[i] = h1[j];
+            h1[j] = temp;
+            i++;
+            j--;
+        }
+        String Swap = new String(h1);
+        return Swap;
+    }
+    BigInteger StringtoInteger(String s)
+    {
+        
+        return BigInteger.parseInt(s);
+         
+        
+    }
+    public BigInteger reverse(int x) {
+        // if(x%10 == 0)
+        //     {
+        //         x = x/10;
+        //     }
+        if(x > 0)
+        {
+            
+            String x_str = IntToString(x);
+
+            x_str = reverse(x_str);
+            System.out.println("This is my x_Str after reverse: "+x_str);
+            int result = StringtoInteger(x_str);
+
+            return result;
+        }
+        else if(x < 0)
+        {
+            x = x*(-1);
+            String x_str2 = IntToString(x);
+            x_str2 = reverse(x_str2);
+            int result2 = StringtoInteger(x_str2);
+
+            return result2*(-1);
+        }
+        return 0;
+    }
+}
+
+*/
+// solution:
+class Solution {
+    public int reverse(int x) {
+        long finalnum = 0;
+        while(x != 0)
+        {
+            int finaldigit = x%10;
+            finalnum += finaldigit;
+            finalnum *= 10;
+            x = x/10;
+        }
+        finalnum = finalnum/10;
+        if(finalnum > Integer.MAX_VALUE || finalnum < Integer.MIN_VALUE)
+        {
+            return 0;
+        }
+        if(x < 0)
+        {
+            return (int)(-1*finalnum);
+        }
+        return (int)finalnum;
+    }
+}
