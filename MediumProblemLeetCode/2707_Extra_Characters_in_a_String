@@ -1,0 +1,39 @@
+class Solution {
+    // static int FindLengthAllSubString(String s, String[] dictionary)
+    // {
+    //     int count = 0;
+        
+    //     for(int i = 0; i < dictionary.length; ++i)
+    //     {
+    //         for(int j = 0; j <= s.length()-dictionary[i].length(); ++j)
+    //         {
+    //             System.out.println(s.substring(j,j+dictionary[i].length()));
+    //             if( s.substring(j, j+dictionary[i].length()).equals(dictionary[i]) )
+    //             {
+    //                 System.out.println("This is substring");
+    //                 count += dictionary[i].length();
+    //             }
+    //         }
+    //     }
+    //     return count;
+    // }
+    public int minExtraChar(String s, String[] dictionary) {
+        int maxVal = s.length()  +1;
+        int[] dp = new int[s.length()  +1];
+        Arrays.fill(dp, maxVal);
+        dp[0] = 0;
+        Set<String> dictionarySet = new HashSet<>(Arrays.asList(dictionary));
+        for(int  i =1; i <= s.length(); ++i)
+        {
+            dp[i] = dp[i-1] + 1;
+            for(int j = 1; j <= i; ++j)
+            {
+                if(dictionarySet.contains(s.substring(i-j,i)))
+                {
+                    dp[i] = Math.min(dp[i], dp[i-j]);
+                }
+            }
+        }
+        return dp[s.length()];
+    }
+}
