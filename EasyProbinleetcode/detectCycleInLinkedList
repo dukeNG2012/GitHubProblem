@@ -1,0 +1,21 @@
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        // check if temp.next == null or not
+        ListNode temp = head;
+        //HashSet<ListNode> set = new HashSet<>();
+        ListNode fast = head;
+        ListNode slow = head;
+        while(fast != null && fast.next != null)
+        {
+            fast = fast.next.next;
+            slow = slow.next;
+            if(fast == slow)
+            {
+                return true;
+            }
+
+            temp = temp.next;
+        }
+        return false;
+    }
+}
