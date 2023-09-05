@@ -1,0 +1,50 @@
+/*
+// Definition for a Node.
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+*/
+// Bản chất của bài này là gán vào map (key = node, value = node_current)
+class Solution {
+    public Node copyRandomList(Node head) {
+        if(head == null)
+        {
+            return head;
+        }
+        Node newhead = new Node(0);
+        Node new_curr = newhead;
+        Node curr = head;
+        Map<Node, Node> umap = new HashMap();
+        while(curr != null)
+        {
+            Node newnode = new Node(curr.val);
+            umap.put(curr, newnode);
+
+            new_curr.next = newnode;
+            new_curr = new_curr.next;
+            curr = curr.next;
+            //temp = temp.next;
+        }
+        curr = head;
+        new_curr = newhead.next;
+        while(curr != null)
+        {
+            Node random = curr.random;
+            Node newnode = umap.get(random); // get này là get key
+            new_curr.random = newnode; 
+
+            new_curr = new_curr.next;
+            curr = curr.next;
+        }
+        return newhead.next;
+
+    }
+}
