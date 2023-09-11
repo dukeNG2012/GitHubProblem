@@ -1,0 +1,62 @@
+class Solution {
+    // int findmax(int[] a)
+    // {
+    //     int max = -9999;
+    //     for(int i : a)
+    //     {
+    //         if(max < i)
+    //         {
+    //             max = i;
+    //         }
+    //     }
+    //     return max;
+    // } 
+    // public List<List<Integer>> groupThePeople(int[] groupSizes) {
+    //     // gia tri cua group size tuong ung voi do dai cua mang.
+    //     // index cua group size = gia tri trong mang moi tao cua minh.
+    //     // sap xep danh sach theo kieu ma tran ke
+    //     HaspMap<Integer, List<Integer>> temp = new HashMap<>();
+    //     List<List<Integer>> result = new ArrayList<>();
+    //     int index = 0;
+    //     for(int j = 0; j < findmax(groupSizes); ++j)
+    //     {
+    //         result.add(new ArrayList<>());
+    //     }
+    //     for(int i : groupSizes)
+    //     {
+            
+    //          // 3 - 0,1,2,3,4,6
+    //         // 1-5
+            
+    //         if( i > 2 && result.get(i-1).size() == findmax(groupSizes))
+    //         {
+    //             result.get(i-2).add(index);
+    //         }
+    //         else
+    //         {
+    //             result.get(i-1).add(index);
+    //         }
+            
+    //         index++;
+    //     } 
+public List<List<Integer>> groupThePeople(int[] groupSizes) {
+    List<List<Integer>> result = new ArrayList<>();
+    HashMap<Integer, List<Integer>> temp = new HashMap<>();
+
+    for(int i = 0; i < groupSizes.length; ++i)
+    {
+        int size = groupSizes[i]; // get size;
+        temp.putIfAbsent(size, new ArrayList<>()); // Neu khong co trong hashmap
+        // thi them no vao voi key == size, va them arraylist
+        temp.get(size).add(i);
+
+        if(temp.get(size).size() == size)
+        {
+            result.add(new ArrayList<>(temp.get(size))); // khi da du do dai thi
+            // moi add vao ket qua
+            temp.get(size).clear(); // xoa o temp di. nhu vay thi khong bi [0,1,2,3,4,6]
+        }
+    }
+    return result;
+}
+}
