@@ -1,16 +1,43 @@
-class Solution {
-    public int minDeletions(String s) {
+import java.util.Arrays;
+
+class test1 {
+    static int minDeletions(String s) {
         // 1 mang frequently
         // xep cac chu giong nhau o trong 1 hang. sau do thi thi dung dp de dem cac     frequent
         int freq[] = new int[26];
-	for (char c : s.toCharArray())
-		freq[c - 'a']++;
-	Arrays.sort(freq);
-	int keep = freq[25], prev = keep;
-	for (int i = 24; i >= 0 && freq[i] != 0 && prev != 0; i--) {
-		prev = Math.min(freq[i], prev - 1);
-		keep += prev;
-	}
-	return s.length() - keep;
+        for (char c : s.toCharArray()) {
+            // đếm tần số của từng chữ cái một
+            freq[c - 'a']++;
+
+        }
+        for(int i = 0; i < freq.length; ++i)
+        {
+            System.out.print(freq[i] + "  ");
+        }
+        Arrays.sort(freq);
+        
+        System.out.println();
+        System.out.print('e'-'a');
+        System.out.println();
+
+        // keep là thằng to nhất vì đã sort
+        int keep = freq[25], prev = keep;
+        // tính sao cho mỗi chứ cái chỉ được giữ không quá letter trước
+        for (int i = 24; i >= 0 && freq[i] != 0 && prev != 0; i--) {
+
+            // dòng prev này là mỗi cái freq bị trừ đi 1 lần để
+            // đảm bảo yêu cầu đề
+            prev = Math.min(freq[i], prev - 1);
+            keep += prev; // sau khi trừ đi xong thì đếm các phần tử còn lại
+            // sau đó độ dài trừ phần tử còn lại là ra kết quả. 
+        }
+        return s.length() - keep;
+    }
+
+    public static void main(String[] args)
+    {
+        String s = "abaabbbacccebrc";
+        System.out.print(minDeletions(s));
+
     }
 }
