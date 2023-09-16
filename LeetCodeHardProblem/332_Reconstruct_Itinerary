@@ -1,24 +1,64 @@
 class Solution {
-    public List<String> findItinerary(List<List<String>> tickets) {
-        Map<String, PriorityQueue<String>> graph = new HashMap<>();
+    // // Phần 1: Lưu trữ dữ liệu
+    // // Phần 2: Biểu diễn dữ liệu
+    // public List<String> findItinerary(List<List<String>> tickets) {
+    //     // Bước 1: Tạo ra 1 map gồm string và priorityqueue để lưu trữ dữ liệu dưỡi dạng 1 hashmap
+    //     Map<String, PriorityQueue<String>> graph = new HashMap<>();
+    //     
+
+    //     // bước 2: sau đó thì mình đẩy các dữ liệu của mình vào trong graph.
+    //     // từ cái list ticket mình có (nó sẽ bao gồm cả 2 cái "MUC" và "LHR")
+    //     // sau đó thì đẩy từng thằng vào graph với:
+    //         // graph.putIfAbsent(ticket.get(0) (ticket.get(0) là lấy phần tử đầu tiên của linkedlist), new PriorityQueue<>())
+    //         // graph.get(ticket.get(0)).add(ticket.get(1)) // phần tử thứ 2 được add vào phần tử thứ nhất 
+    //     for (List<String> ticket : tickets) {
+    //         System.out.print("This is my ticket: " + ticket + "\n");
+    //         graph.putIfAbsent(ticket.get(0), new PriorityQueue<>());
+    //         System.out.print("This is my graph after put if absent: " + graph + "\n");
+    //         graph.get(ticket.get(0)).add(ticket.get(1));
+    //         System.out.print("This is my graph get ticket.get(0).add(ticket.get(1)): " + graph + "\n");
+    //     }
         
-        for (List<String> ticket : tickets) {
+    //     LinkedList<String> itinerary = new LinkedList<>();
+        
+    //     dfs("JFK", graph, itinerary);
+        
+    //     return itinerary;
+    // }
+    
+    // private void dfs(String airport, Map<String, PriorityQueue<String>> graph, LinkedList<String> itinerary) {
+    //     PriorityQueue<String> nextAirports = graph.get(airport);
+    //     while (nextAirports != null && !nextAirports.isEmpty()) {
+    //         System.out.print("Gia tri next airports.poll() sau khi dfs la: " + nextAirports.peek() + "\n");
+    //         dfs(nextAirports.poll(), graph, itinerary);
+            
+    //     }
+    //     itinerary.addFirst(airport);
+    // }
+    public List<String> findItinerary(List<List<String>> tickets) {
+        // Bước 1: Để lưu trữ dữ liệu tên airport thì cần string và 1 queue để làm đúng k?
+        // tại sao lại cần priorityqueue và tại sao lại phải ở dạng String?
+            // priorityqueue là vì sau này khi mình dfs ra mình sẽ muốn mọi thứ giống như stack phải không? 
+            // đó là lý do prioriryQueue
+        Map<String, PriorityQueue<String>> graph = new HashMap<>();
+
+        for(List<String> ticket : tickets)
+        {
             graph.putIfAbsent(ticket.get(0), new PriorityQueue<>());
             graph.get(ticket.get(0)).add(ticket.get(1));
         }
-        
-        LinkedList<String> itinerary = new LinkedList<>();
-        
-        dfs("JFK", graph, itinerary);
-        
-        return itinerary;
+
+        LinkedList<String> iter = new LinkedList<String>();
+        dfs("JFK", graph, iter);
+        return iter;
     }
-    
-    private void dfs(String airport, Map<String, PriorityQueue<String>> graph, LinkedList<String> itinerary) {
-        PriorityQueue<String> nextAirports = graph.get(airport);
-        while (nextAirports != null && !nextAirports.isEmpty()) {
-            dfs(nextAirports.poll(), graph, itinerary);
+    void dfs(String airport, Map<String, PriorityQueue<String>> graph, LinkedList<String> iter)
+    {
+        PriorityQueue<String> nextairport = graph.get(airport);
+        while(nextairport != null && !nextairport.isEmpty())
+        {
+            dfs(nextairport.poll(), graph, iter);
         }
-        itinerary.addFirst(airport);
+        iter.addFirst(airport);
     }
 }
