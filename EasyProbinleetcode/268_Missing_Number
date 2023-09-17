@@ -1,0 +1,17 @@
+class Solution {
+    public int missingNumber(int[] nums) {
+        int i = 0;
+        Arrays.sort(nums);
+        while(i <= nums.length)
+        {
+            int res = Arrays.binarySearch(nums,i);
+            if(res < 0)
+            {
+                return i;
+            }
+            i++;
+            
+        }
+        return -1;
+    }
+}
