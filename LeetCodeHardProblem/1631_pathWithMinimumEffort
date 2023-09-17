@@ -1,8 +1,12 @@
+// đề bài: làm sao để max(abs(hiệu 2 ô liền kề) ) là min nhất có thể
 public class Solution {
     public int minimumEffortPath(int[][] heights) {
         int rows = heights.length, cols = heights[0].length;
         int[][] dist = new int[rows][cols];
-        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));
+        // priorityQueue để remove max value trong queue
+        // hàng đợi ưu tiên sẽ hoạt động dựa trên hàm lambda phía sau. Nó sẽ ưu tiên cho phần tử đầu tiên trong queue
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));  
+        // add phần tử {0,0,0} Vào trong mảng. 
         minHeap.add(new int[]{0, 0, 0});
         
         for (int i = 0; i < rows; i++) {
@@ -13,9 +17,21 @@ public class Solution {
         dist[0][0] = 0;
         
         int[][] directions = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-        
+
+// Khi mà while vẫn chạy: có 2 điều:
+    // điều 1: extract trong cái minheap ra thành effort, tọa độ x, tọa độ y
+        // nếu effort > tọa độ hiện tại -> skip
+        // nếu như đã đi hết toàn bộ map -> return effort gần nhất
+    // điều 2: xét từng direction 1: 
+        // lấy tọa độ lần di chuyển kế tiếp
+        // khi mà tọa độ đó còn hợp lệ:
+            // tìm new_effort = Math.max(effort, Math.abs(heights[x][y] - heights[nx][ny]))
+                // nếu new_effort < dist[nx][ny]
+                    //dist[nx][ny] = new_effort; -> mục đích để tìm ra con đường mới ngắn nhất.
+                    //minhead.add(new int[]{new_effort,nx,ny}; cho vào queue để ta xét lại phần tọa độ đó.
         while (!minHeap.isEmpty()) {
-            int[] top = minHeap.poll();
+
+            int[] top = minHeap.poll(); // top sẽ là mảng mà mỗi ô chứa 1 phần tử và có tổng là 3 phần tử mỗi lần while
             int effort = top[0], x = top[1], y = top[2];
             
             if (effort > dist[x][y]) continue;
@@ -23,9 +39,12 @@ public class Solution {
             if (x == rows - 1 && y == cols - 1) return effort;
             
             for (int[] dir : directions) {
-                int nx = x + dir[0], ny = y + dir[1];
+                int nx = x + dir[0], ny = y + dir[1]; // lần di chuyển tiếp theo
                 if (nx >= 0 && nx < rows && ny >= 0 && ny < cols) {
-                    int new_effort = Math.max(effort, Math.abs(heights[x][y] - heights[nx][ny]));
+                    int new_effort = Math.max(effort, Math.abs(heights[x][y] - heights[nx][ny]));// chọn ra effort max cho lần chạy kế tiếp
+
+                    // nếu như effort vừa tìm được nhỏ hơn khoảng cách mới thì gán khoảng cách
+                    // mới bằng effort
                     if (new_effort < dist[nx][ny]) {
                         dist[nx][ny] = new_effort;
                         minHeap.add(new int[]{new_effort, nx, ny});
