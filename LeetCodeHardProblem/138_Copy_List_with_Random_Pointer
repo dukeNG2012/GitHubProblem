@@ -1,4 +1,3 @@
-// VẤN ĐỀ HAY BẮT BUỘC PHẢI XEM LẠI
 /*
 // Definition for a Node.
 class Node {
@@ -14,6 +13,11 @@ class Node {
 }
 */
 // Bản chất của bài này là gán vào map (key = node, value = node_current)
+// đề bài là node random sẽ trỏ đến 1 cái node có vị trí nào đó và bạn phải in vị trí đó ra.
+// bản chất là: Khi bạn cho vào map thì random chắc chắn sẽ là 1 value và nó trỏ đến 1 value của node khác
+// nào đó. Cái mục đích là mình phải represent được cái linked list giống như trong hình vẽ!
+
+// mục đích của new_curr và while đầu tiên là để dính linked list vào nhau đã. While thứ 2 là để nối các cái node random lại với nhau.
 class Solution {
     public Node copyRandomList(Node head) {
         if(head == null)
@@ -49,3 +53,48 @@ class Solution {
 
     }
 }
+/*
+-------------------------- Phần này là tự code lại mà không cần nhìn (đã hiểu vấn đề) ----------------------------------------
+/*
+// Definition for a Node.
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+*/
+
+class Solution {
+    public Node copyRandomList(Node head) {
+        Node curr = head;
+        Node new_head = new Node(0);
+        Node new_curr = new_head;
+        Map<Node, Node> umap = new HashMap<>();
+        while(curr != null)
+        {
+            Node newnode = new Node(curr.val);
+            umap.put(curr,newnode);
+            new_curr.next = newnode;
+            new_curr = new_curr.next;
+            curr = curr.next;
+        }
+        curr = head;
+        new_curr = new_head.next;
+        while(curr != null)
+        {
+            Node random = curr.random;
+            Node newnode = umap.get(random);
+            new_curr.random = newnode;
+            new_curr = new_curr.next;
+            curr = curr.next;
+        }
+        return new_head.next;
+    }
+}
+*/
