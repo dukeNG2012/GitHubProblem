@@ -1,0 +1,35 @@
+// Đây là ý tưởng dp approach với memorization.
+// bạn đặt 1 ma trận toàn số âm với nxm (độ dài nums1 x độ dài nums2)
+// bạn sẽ xét từng ô một rồi lấy max của nó gán vào ô mem[i][j] hiện tại của bạn. Bạn sẽ check theo kiểu:
+// max(nums1[i] * nums2[j] + max(dp(i+1,j+1),0) ,  max(dp(i+1,j) , dp(i,j+1))  )
+
+và thế là phần tử cuối cùng của ma trận chính là max. Với complexity là O(nxm).
+class Solution {
+    int dp(int mem[][], int i, int j, int n, int m, int nums1[], int nums2[])
+    {
+        if(i == n || j == m)
+        {
+            return -999;
+        }
+        if(mem[i][j] != -999)
+        {
+            return mem[i][j];
+        }
+        mem[i][j] = Math.max((nums1[i]*nums2[j] + Math.max(dp(mem,i+1,j+1,n,m,nums1,nums2),0)), Math.max(dp(mem,i+1,j,n,m,nums1,nums2), dp(mem,i,j+1,n,m,nums1,nums2)));
+
+        return mem[i][j];
+    }
+    public int maxDotProduct(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        int m = nums2.length;
+        int mem[][] = new int[n][m];
+        for(int i = 0; i < n; ++i)
+        {
+            for(int j = 0; j < m; ++j)
+            {
+                mem[i][j] = -999;
+            }
+        }
+        return dp(mem,0,0,n,m,nums1,nums2);
+    }
+}
