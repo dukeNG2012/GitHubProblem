@@ -1,0 +1,39 @@
+class Solution {
+    public int minimumTime(int n, int[][] relations, int[] time) {
+        List<List<Integer>> graph = new ArrayList<>();
+        for(int i = 0; i < n; ++i)
+        {
+            graph.add(new ArrayList<>());
+        }
+
+        for(int[] rela : relations)
+        {
+            int prevcourse = rela[0]-1;
+            int nextcourse = rela[1]-1;
+
+            graph.get(nextcourse).add(prevcourse);
+        }
+
+        int[] memo = new int[n];
+        int mintime = 0;
+        for(int i =0 ; i < n; ++i)
+        {
+            mintime = Math.max(mintime, calculateTime(i,graph,time,memo));
+        }
+        return mintime;
+    }
+    private int calculateTime(int course, List<List<Integer>> graph, int[] time, int[] memo)
+    {
+        if(memo[course] != 0)
+        {
+            return memo[course];
+        }
+        int maxTimeTake = 0;
+        for(int prevcourse : graph.get(course))
+        {
+            maxTimeTake = Math.max(maxTimeTake,calculateTime(prevcourse,graph,time,memo));
+        }
+        memo[course] = maxTimeTake + time[course];
+        return memo[course];
+    }
+}
