@@ -1,0 +1,53 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<Integer> largestValues(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if(root == null)
+        {
+            return res;
+        }
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+        while(!q.isEmpty())
+        {
+            int size = q.size();
+            int max = Integer.MIN_VALUE;
+            // q.add(root);
+            for(int i = 0 ; i < size; ++i)
+            {
+                
+                if(q.peek().left != null)
+                {
+                    //System.out.println("This is my value in q.peek().left: " + q.peek().left.val);
+                    q.add(q.peek().left); // peek() là peek queue.head()
+                }
+                if(q.peek().right != null)
+                {
+                    //System.out.println("This is my value in q.peek().right: " + q.peek().right.val);
+                    q.add(q.peek().right);
+                }
+                max = Math.max(max,q.remove().val); // remove là remove queue.head()
+                // for(TreeNode j : q)
+                // {
+                //     System.out.println("This is my q: " + j.val);
+                // }
+            }
+            res.add(max);
+        }
+        return res;
+    }
+}
