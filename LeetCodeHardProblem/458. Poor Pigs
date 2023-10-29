@@ -1,0 +1,21 @@
+class Solution {
+    public int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
+        // 2 chiều thì cần ít nhất 2 con lợn: 1 con ở hàng, 1 con ở cột. Sau đó cho 2 con ăn cùng 1 lúc
+        // giảng bài: 1 2 3 4 5
+        //            6 7 8 9 10
+        // test 1: 1 2 3 4 , numtest = 1
+        // test 2: 1 2 3 4, numtest = 2
+        int numOfTest = minutesToTest/minutesToDie;
+        // test1 : 1
+        // test2: 2
+        int numPig = 0;
+        while(Math.pow(numOfTest+1,numPig) < buckets) 
+        // Phần pow tức là mỗi con lợn đều có thể ăn numOfTest+1 buckets ! 
+        {
+            // +1 là vì nếu có 4 test, có 5 cái xô thì vẫn check được vì nếu 4 test đầu sống thì test 5 có độc
+            
+            numPig++;
+        }
+        return numPig; 
+    }
+}
