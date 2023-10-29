@@ -1,2 +1,2 @@
-# GitHubProblem
-this is the place i put the github prob that i think it's cool
+# LeetCodeProblem
+this is the place i put LeetCode probs for revision back
