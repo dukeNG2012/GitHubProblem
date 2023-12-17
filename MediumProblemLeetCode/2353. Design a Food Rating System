@@ -1,0 +1,56 @@
+from collections import defaultdict #! default dict means if dont have value rase an error not present define by me
+
+#! chính vì có một số cuisine trùng nên không thể dùng dict được. 
+#! -> dùng heapq:
+
+# ly do -rating la vi heap binh thuong la mean heap. Neu ma sap xep thi
+# no se xep thang be nhat len dau (tuc la thang co diem cao nhat len dau)
+
+class FoodRatings:
+    def __init__(self, foods: List[str], cuisines: List[str], ratings: List[int]):
+        self.cuisine_to_heap = defaultdict(list)
+        self.food_to_cuisine = {}
+        self.food_to_rating = defaultdict(list)
+        for i in range(len(foods)):
+            self.food_to_cuisine[foods[i]] = cuisines[i]
+            heapq.heappush(self.cuisine_to_heap[cuisines[i]], (-ratings[i],foods[i]))
+            #! heappush se push vao dict cuisines. 
+            #!print("this is my heapq: {}".format(self.cuisine_to_heap))
+            self.food_to_rating[foods[i]] = -ratings[i]
+
+    def changeRating(self, food: str, newRating: int) -> None:
+        cuisine = self.food_to_cuisine[food]
+        heapq.heappush(self.cuisine_to_heap[cuisine],(-newRating,food))
+        self.food_to_rating[food] = -newRating
+
+    def highestRated(self, cuisine: str) -> str:
+        '''
+        muc dich cua ham nay la tim xem trong so cac cuisine thi thang naof
+        co rate cao nhat. Neu co 2 thang diem bang nhau, nhung khac ten food thi
+        phai tra ve thang nao co chu cai dau tien dung truoc
+        trong bang chu cai. 
+        '''
+        smallest_lexico = None
+        while(len(self.cuisine_to_heap[cuisine]) > 0):
+            current_score = self.cuisine_to_heap[cuisine][0]
+            #! current_score chua toan bo rating. 
+            #print("This is my current_score_food: {}".format(current_score))
+            #! dong if se xoa cho toi khi nao ma 
+            if(current_score[0] != self.food_to_rating[current_score[1]]):               
+                
+                heapq.heappop(self.cuisine_to_heap[cuisine])
+                
+                #! Neu nhu rating khac nhau, pop cho toi khi tim duoc 2 thang: 
+                #! cung rating, khac food -> tra ve food co gia tri gan hon
+                #! trong bang chu cai. 
+
+                continue
+            smallest_lexico = current_score[1]
+            break 
+        return smallest_lexico
+
+
+# Your FoodRatings object will be instantiated and called as such:
+# obj = FoodRatings(foods, cuisines, ratings)
+# obj.changeRating(food,newRating)
+# param_2 = obj.highestRated(cuisine)
