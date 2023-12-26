@@ -1,0 +1,13 @@
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        res = []
+        def dfs(left,right, mystr):
+            if(len(mystr) == n*2):
+                res.append(mystr)
+                return
+            if left < n:
+                dfs(left+1,right,mystr + "(")
+            if right+1 <= left: #! if we let right < n, it will generate others wrong code belike: ["((()))","(()())","(())()","(()))(","()(())","()()()","()())(","())(()","())()(","()))((",")((())",")(()()",")(())(",")()(()",")()()(",")())((","))((()","))(()(","))()((",")))((("]
+                dfs(left,right+1,mystr + ")")
+        dfs(0,0,"")
+        return res
