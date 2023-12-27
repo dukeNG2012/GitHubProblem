@@ -1,0 +1,19 @@
+class Solution:
+    def minCost(self, colors: str, neededTime: List[int]) -> int:
+        #1 Ý nghĩa: so sánh từng str1. nếu như 2 color khác nhau, thì đến color phía sau nó
+        totaltime = 0
+        i = 0
+        j = 0
+        while i < len(colors) and j < len(colors):
+            curr_max = 0
+            curr_total = 0
+            while(j < len(colors) and colors[i] == colors[j]):
+                curr_total += neededTime[j] #! time trong 1 substring
+                curr_max = max(curr_max,neededTime[j]) #! max trong 1 substring
+                j += 1
+            #! nếu như có 2 phần tử khác nhau, tức là đã xong substring đầu tiên
+            totaltime += curr_total - curr_max
+            i = j #! chuyển i tới substring tiếp theo
+            #! mục tiêu là chỉ so sánh các phân tử còn lại với phần tử [i] (tức phần tử đầu tiên). 
+        return totaltime
+            
