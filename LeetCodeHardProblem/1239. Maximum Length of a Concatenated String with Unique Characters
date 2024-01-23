@@ -1,0 +1,22 @@
+tư tưởng là tìm tất cả các str concate hợp lệ từ start_idx tới len(arr) rồi chọn ra len dài nhất trong quá trình đó. 
+class Solution:
+    def maxLength(self, arr: List[str]) -> int:
+        def backtrack(arr,current_str, start_idx, maxLength):
+            if maxLength[0] < len(current_str):
+                maxLength[0] = len(current_str)
+            for i in range(start_idx, len(arr)):
+                if not isvalid(current_str,arr[i]):
+                    continue
+                backtrack(arr,current_str+arr[i],i+1,maxLength)
+        def isvalid(current_str, next_str):
+            charset = set()
+            for ch in next_str:
+                if ch in charset:
+                    return False
+                charset.add(ch)
+                if ch in current_str:
+                    return False
+            return True
+        maxLength = [0]
+        backtrack(arr,"",0,maxLength)
+        return maxLength[0]
